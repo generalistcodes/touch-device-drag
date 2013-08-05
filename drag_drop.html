@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <title>Draggable Example</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <style type="text/css">
+      .box {
+        width: 60px;height: 60px;position: relative;left:50%;color: #FFF;text-align: center;}
+      .blues{background-color: #33B5E5;}
+      .blued{background-color: #0099CC;}
+      .log{float: left;border:1px solid #ccc;height: 80%;position: absolute;width: 200px;top:0;white-space: pre-wrap}
+    </style>
+  </head>
+  <body>
+    <div class="box blues">Draggable Box</div>
+    <div class="box blued">Draggable Box</div>
+    <pre class="log"></pre>
+  </body>
+    <script type="text/javascript">
+      $.fn.draggable = function() {
+
+        var offset = null;
+
+        var start = function(e) {
+
+          var orig = e.originalEvent;
+
+          var pos = $(this).position();
+
+          offset = {
+
+            x: orig.changedTouches[0].pageX - pos.left,
+
+            y: orig.changedTouches[0].pageY - pos.top
+          };
+
+
+          //you can remove this part
+          $('.log').append('x: ' + pos.left + 'y: ' + pos.left + '<br/>');
+
+
+
+        };
+
+        var mov_element = function(e) {
+
+          e.preventDefault();
+
+          var orig = e.originalEvent;
+
+          $(this).css({
+
+            top: orig.changedTouches[0].pageY - offset.y,
+
+            left: orig.changedTouches[0].pageX - offset.x
+
+          });
+
+        };
+        this.bind("touchstart", start);
+        this.bind("touchmove", mov_element);
+      };
+
+      $(".box").draggable();
+    </script>
+</html>
